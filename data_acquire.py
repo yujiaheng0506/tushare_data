@@ -52,8 +52,23 @@ class StockDownloader:
             except Exception as e:
                 print(f"股票 {stock} 下载出错: {e}")
                 continue
-    def download_all_daily(self,sleep_time=0.5)
-        
+
+    def download_all_daily(self,sleep_time=0.5,start_date = '',end_date=''):
+        df = pd.read_csv('股票列表.csv')
+        stock_list = df['ts_code']
+        for stock in tqdm(stock_list,desc="同步行情", unit="stock"):
+            try:
+                stock_price = self.pro.daily(
+                    ts_code=stock,
+                    start_date=start_date,
+                    end_date=end_date,
+                    fields="ts_code,trade_date,open,high,low,close,pre_close,change,pct_chg,vol,amount"
+                )
+                
+            except Exception as e:
+
+
+
         print("所有数据下载任务完成。")
 
 if __name__ == "__main__":
