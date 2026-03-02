@@ -16,7 +16,11 @@ class StockDownloader:
         if not os.path.exists(self.output_dir):
             os.makedirs(self.output_dir)
             print(f'目录 {self.output_dir} 创建成功')
-    def download_stock_list(self,sleeptime= ,)
+    """下载股票列表"""        
+    def download_stock_list(self):
+        df = self.pro.stock_basic(exchange='', list_status='L', fields='ts_code,symbol,name,area,industry,list_date')
+        df.to_csv("股票列表.csv", index=False, encoding='utf-8-sig')
+
     def _auth(self):
         try:
             return ts.pro_api(token=self.token)
@@ -43,14 +47,15 @@ class StockDownloader:
                 
                 file_path = os.path.join(self.output_dir, f"{stock}.csv")
                 stock_price.to_csv(file_path, index=False, encoding='utf-8-sig')
-                print(f"已获取股票 {stock} 的数据")
+                tqdm.write(f"股票{stock}数据已获取")
                 time_module.sleep(sleep_time)
             except Exception as e:
                 print(f"股票 {stock} 下载出错: {e}")
                 continue
+    def download_all_daily(self,sleep_time=0.5)
         
         print("所有数据下载任务完成。")
 
 if __name__ == "__main__":
     downloader = StockDownloader()
-    downloader.download_all_history(sleep_time=0.3)
+    downloader.download_all_history (sleep_time=0.3,start_date ='20210302',end_date = '20260302')
